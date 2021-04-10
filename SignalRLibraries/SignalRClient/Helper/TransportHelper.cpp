@@ -210,4 +210,17 @@ const NegotiateResponse* TransportHelper::parseNegotiateHttpResponse(const QStri
     return response;
 }
 
+const QString TransportHelper::additionalQueryToString(QList<QPair<QString, QString>> additionalQueryString)
+{
+    QUrlQuery query;
+    for(int i = 0; i < additionalQueryString.size(); i++)
+    {
+        QString first =  additionalQueryString.at(i).first;
+        QString second =  additionalQueryString.at(i).second;
+
+        query.addQueryItem(first, second.toHtmlEscaped());
+    }
+    return "&" + query.toString(QUrl::FullyEncoded);
+}
+
 }}}

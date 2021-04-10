@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += network testlib
+QT       += network testlib websockets
 
 QT       -= gui
 
@@ -31,20 +31,6 @@ else:unix: LIBS += -L$$OUT_PWD/../../SignalRLibraries/SignalRClient/ -lSignalRCl
 
 INCLUDEPATH += $$PWD/../../SignalRLibraries/SignalRClient
 DEPENDPATH += $$PWD/../../SignalRLibraries/SignalRClient
-
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../ThirdParty/QtWebSockets/src/websockets/release/ -lQtWebSockets
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../ThirdParty/QtWebSockets/src/websockets/debug/ -lQtWebSockets
-else:unix: LIBS += -L$$OUT_PWD/../../ThirdParty/QtWebSockets/src/websockets/ -lQtWebSockets
-
-INCLUDEPATH += $$PWD/../../ThirdParty/QtWebSockets/src/websockets
-DEPENDPATH += $$PWD/../../ThirdParty/QtWebSockets/src/websockets
-
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../ThirdParty/QHttpServer/src/release/ -lQHttpServer
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../ThirdParty/QHttpServer/src/debug/ -lQHttpServer
-else:unix: LIBS += -L$$OUT_PWD/../../ThirdParty/QHttpServer/src/ -lQHttpServer
-
-INCLUDEPATH += $$PWD/../../ThirdParty/QHttpServer/src
-DEPENDPATH += $$PWD/../../ThirdParty/QHttpServer/src
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../ThirdParty/QtExtJson/release/ -lQextJson
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../ThirdParty/QtExtJson/debug/ -lQextJson

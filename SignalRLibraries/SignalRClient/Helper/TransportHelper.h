@@ -55,6 +55,7 @@ public:
 
 
     static const NegotiateResponse* parseNegotiateHttpResponse(const QString& httpResponse);
+    static const QString additionalQueryToString(QList<QPair<QString, QString>> query);
 };
 
 }}}

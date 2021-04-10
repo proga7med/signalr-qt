@@ -2,6 +2,7 @@
 #include "Helper/Helper.h"
 #include "SignalException.h"
 #include "Connection_p.h"
+#include "Helper/TransportHelper.h"
 
 namespace P3 { namespace SignalR { namespace Client {
 
@@ -24,20 +25,13 @@ void WebSocketTransport::start(QString)
     if(_webSocket == 0)
     {
         _webSocket = new QWebSocket();
-        _webSocket->setAdditonalQueryString(_connection->getAdditionalQueryString());
-        _webSocket->setAddtionalHeaders(_connection->getAdditionalHttpHeaders());
-#ifndef QT_NO_NETWORKPROXY
-        _webSocket->setProxy(_connection->getProxySettings());
-#endif
-#ifndef QT_NO_SSL
-        _webSocket->setSslConfiguration(_connection->getSslConfiguration());
-#endif
 
         QString conOrRecon = "connect";
         if(_started)
             conOrRecon = "reconnect";
         QString connectUrl = _connection->getWebSocketsUrl() + "/" +conOrRecon;
         connectUrl += TransportHelper::getReceiveQueryString(_connection, getTransportType());
+        connectUrl += TransportHelper::additionalQueryToString(_connection->getAdditionalQueryString());
 
         QUrl url = QUrl(connectUrl);
 
@@ -58,7 +52,22 @@ void WebSocketTransport::start(QString)
 
         connect(_webSocket, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(onIgnoreSsl(QList<QSslError>)));
 
-        _webSocket->open(url);
+        QNetworkRequest req(url);
+        for (int i = 0; i < _connection->getAdditionalHttpHeaders().size(); i++)
+        {
+            QByteArray name = _connection->getAdditionalHttpHeaders()[i].first.toLatin1();
+            QByteArray value = _connection->getAdditionalHttpHeaders()[i].second.toLatin1();
+            req.setRawHeader(name, value);
+        }
+
+#ifndef QT_NO_NETWORKPROXY
+        _webSocket->setProxy(_connection->getProxySettings());
+#endif
+#ifndef QT_NO_SSL
+        _webSocket->setSslConfiguration(_connection->getSslConfiguration());
+#endif
+
+        _webSocket->open(req);
     }
 
 }
@@ -67,7 +76,7 @@ void WebSocketTransport::send(QString data)
 {
     if(_webSocket)
     {
-        qint64 bytesWritten = _webSocket->write(data);
+        qint64 bytesWritten = _webSocket->sendTextMessage(data);
         if(bytesWritten != data.size())
         {
             _connection->emitLogMessage("Written bytes does not equals given bytes", SignalR::Warning);

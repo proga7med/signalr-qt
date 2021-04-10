@@ -2,11 +2,10 @@
 #define WEBSOCKETTRANSPORT_H
 
 #include "HttpBasedTransport.h"
-#include <qwebsocket.h>
 #include "Connection.h"
 #include "Helper/TransportHelper.h"
 #include <QTimer>
-
+#include <QWebSocket>
 
 namespace P3 { namespace SignalR { namespace Client {
 
