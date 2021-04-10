@@ -3,7 +3,7 @@ QT       -= gui
 
 TARGET = QextJson
 TEMPLATE = lib
-CONFIG += sharedlib
+CONFIG += staticlib
 
 
 SOURCES += \
