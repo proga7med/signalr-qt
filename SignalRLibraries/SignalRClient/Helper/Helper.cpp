@@ -29,14 +29,6 @@
  */
 
 #include "Helper.h"
-
-#ifdef Q_OS_LINUX
-#include <unistd.h>
-#endif
-#ifdef Q_OS_WIN32
-#include <windows.h>
-#endif
-
 #include "Connection_p.h"
 
 namespace P3 { namespace SignalR { namespace Client {
