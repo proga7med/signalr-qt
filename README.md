@@ -20,6 +20,18 @@ git clone --recursive https://github.com/p3root/signalr-qt.git
 
 Then just run qmake and make.
 
+New in Signalr-Qt (proga7med)
+======
+I will continue supporting the library.
+
+- Now signalr-Qt is only Qt5 support (won't build in Qt4).
+- Build the library statically.
+- Use the offical QWebsocket instead of https://github.com/p3root/QtWebSocket.git
+- Solving some SSL issues.
+- Tested on *Qt 5.14.0 (x64)*.
+- The next release will use CMake instead of QMake.
+
+
 Client
 ======
 
