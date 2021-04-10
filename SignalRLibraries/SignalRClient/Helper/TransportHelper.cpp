@@ -48,7 +48,7 @@ TransportHelper::~TransportHelper(void)
 QString TransportHelper::getReceiveQueryString(ConnectionPrivate* connection, QString transport)
 {
     QString connectionTokenKey = "connectionToken";
-    QString conData = "&" + connectionTokenKey + "=" + QString(connection->getConnectionToken());
+    QString conData = "&" + connectionTokenKey + "=" + QString(QUrl::toPercentEncoding(connection->getConnectionToken()));
     QString qs = "?transport=" + transport + conData;
 
     QString messageId = connection->getMessageId();
@@ -67,7 +67,7 @@ QString TransportHelper::getReceiveQueryString(ConnectionPrivate* connection, QS
     QString onSending = connection->onSending();
     if(!onSending.isEmpty())
     {
-        qs += "&connectionData=" + onSending;
+        qs += "&connectionData=" + QString(QUrl::toPercentEncoding(onSending));
     }
 
     if(!connection->getTid().isEmpty())

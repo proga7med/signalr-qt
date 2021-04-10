@@ -122,6 +122,9 @@ void HttpClient::get(QString url)
 #endif
     }
 
+#ifndef QT_NO_SSL
+    req.setSslConfiguration(_connection->getSslConfiguration());
+#endif
 
     _connection->emitLogMessage("starting get request (" + _connection->getConnectionId() + "), active connections: " + QString::number(_currentConnections.size()+1), SignalR::Debug);
     _connection->emitLogMessage("get request url " +  QString::fromUtf8(reqUrl.toEncoded()), SignalR::Trace);
@@ -180,6 +183,10 @@ QString HttpClient::postSync(QString url, QMap<QString, QString> arguments, QSha
     QNetworkRequest req = QNetworkRequest(reqUrl);
     req.setRawHeader("User-Agent", "SignalR-Qt.Client");
     req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+
+#ifndef QT_NO_SSL
+    req.setSslConfiguration(_connection->getSslConfiguration());
+#endif
 
     for(int i = 0; i < _connection->getAdditionalHttpHeaders().size(); i++)
     {
@@ -269,6 +276,10 @@ void HttpClient::onDoPost(QString url, QMap<QString, QString> arguments)
     QNetworkRequest req = QNetworkRequest(reqUrl);
     req.setRawHeader("User-Agent", "SignalR-Qt.Client");
     req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+
+#ifndef QT_NO_SSL
+    req.setSslConfiguration(_connection->getSslConfiguration());
+#endif
 
     for(int i = 0; i < _connection->getAdditionalHttpHeaders().size(); i++)
     {
